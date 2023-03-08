@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
 from django.contrib.auth import login, logout, authenticate
+from .models import Course, Enrollment, Question, Choice, Submission
 import logging
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -132,5 +133,56 @@ def enroll(request, course_id):
         # Calculate the total score
 #def show_exam_result(request, course_id, submission_id):
 
+def submit(request, course_id):
+    # Get the current user and the course object
+    user = request.user
+    course = Course.objects.get(id=course_id)
 
+    # Get the associated enrollment object
+    enrollment = Enrollment.objects.get(user=user, course=course)
+
+    # Create a new submission object referring to the enrollment
+    submission = Submission.objects.create(enrollment=enrollment)
+
+    # Collect the selected choices from HTTP request object
+    selected_choices = []
+    for key in request.POST:
+        if key.startswith('choice'):
+            choice_id = int(request.POST[key])
+            selected_choices.append(choice_id)
+
+    # Add each selected choice object to the submission object
+    for choice_id in selected_choices:
+        choice = Choice.objects.get(id=choice_id)
+        submission.choices.add(choice)
+
+    # Redirect to a show_exam_result view with the submission id to show the exam result
+    return redirect('onlinecourse:show_exam_result', course_id=course_id, submission_id=submission.id)
+
+
+def submit(request, course_id):
+    # Get the current user and the course object
+    user = request.user
+    course = Course.objects.get(id=course_id)
+
+    # Get the associated enrollment object
+    enrollment = Enrollment.objects.get(user=user, course=course)
+
+    # Create a new submission object referring to the enrollment
+    submission = Submission.objects.create(enrollment=enrollment)
+
+    # Collect the selected choices from HTTP request object
+    selected_choices = []
+    for key in request.POST:
+        if key.startswith('choice'):
+            choice_id = int(request.POST[key])
+            selected_choices.append(choice_id)
+
+    # Add each selected choice object to the submission object
+    for choice_id in selected_choices:
+        choice = Choice.objects.get(id=choice_id)
+        submission.choices.add(choice)
+
+    # Redirect to a show_exam_result view with the submission id to show the exam results
+    return HttpResponseRedirect(reverse('onlinecourse:show_exam_result', args=[course.id, submission.id]))
 
