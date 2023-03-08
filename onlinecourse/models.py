@@ -132,3 +132,33 @@ class Enrollment(models.Model):
 #    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
 #    choices = models.ManyToManyField(Choice)
 #    Other fields and methods you would like to design
+
+class Question(models.Model):
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    text = models.CharField(max_length=500)
+    grade = models.FloatField(default=0.0)
+
+    def is_get_score(self, selected_ids):
+        all_answers = self.choice_set.filter(is_correct=True).count()
+        selected_correct = self.choice_set.filter(is_correct=True, id__in=selected_ids).count()
+        return all_answers == selected_correct
+
+
+class Choice(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    text = models.CharField(max_length=500)
+    is_correct = models.BooleanField(default=False)
+
+
+class Submission(models.Model):
+    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
+    choices = models.ManyToManyField(Choice)
+    date_submitted = models.DateTimeField(default=now)
+    score = models.FloatField(default=0.0)
+
+    def save(self, *args, **kwargs):
+        # Calculate score based on selected choices
+        selected_choices = self.choices.filter(is_correct=True)
+        total_grade = sum([choice.question.grade for choice in selected_choices])
+        self.score = round((total_grade / self.enrollment.course.total_enrollment) * 100, 2)
+        super().save(*args, **kwargs)
