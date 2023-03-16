@@ -1,0 +1,22 @@
+{
+  "apikey": "xSCM3QUuGRCS4hXpyxZSe7thZA_fCbehFypUrEHCkZla",
+  "host": "4f69c4cf-9669-4e47-9577-c68b9d7ed59f-bluemix.cloudantnosqldb.appdomain.cloud",
+  "iam_apikey_description": "Auto-generated for key crn:v1:bluemix:public:cloudantnosqldb:us-south:a/c9ef8ab6ebad47aba67a001a181fe531:78dd1690-3e45-4722-872a-72ccf2fa713b:resource-key:b36b07e7-f50b-492f-9d5a-6607a88f1389",
+  "iam_apikey_name": "Service credentials-1",
+  "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+  "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/c9ef8ab6ebad47aba67a001a181fe531::serviceid:ServiceId-b8576c18-ff7b-4103-8cc1-b638e8ec9eef",
+  "url": "https://4f69c4cf-9669-4e47-9577-c68b9d7ed59f-bluemix.cloudantnosqldb.appdomain.cloud",
+  "username": "4f69c4cf-9669-4e47-9577-c68b9d7ed59f-bluemix"
+} 
+
+Service credentials-1
+
+
+dealership-package/get-dealership ENDPOINT JavaScript
+https://us-south.functions.appdomain.cloud/api/v1/web/c9d1715f-fd0a-4317-9161-5032ff1121c2/dealership-package/get-dealership
+
+Reviews Endpoint Python
+https://us-south.functions.appdomain.cloud/api/v1/web/c9d1715f-fd0a-4317-9161-5032ff1121c2/dealership-package/get-review
+
+
+
